@@ -1,4 +1,4 @@
-export class ScoBackendConfig {
+export class ScoBackendFwConfig {
   verbose: boolean;
   path: string;
   folder: string;

@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AppService } from './app.service';
 import { AppInterceptor } from './app.interceptor';
-import { ScoBackendModule } from './../libs/sco-backend-fw/src/sco-backend/sco-backend.module';
+import { ScoBackendFwModule } from './../libs/sco-backend-fw/src/sco-backend-fw/sco-backend-fw.module';
  
 @Module({
   imports: [
-    ScoBackendModule.registerAsync({
+    ScoBackendFwModule.registerAsync({
       imports: [],
       useFactory: () => {
         return {

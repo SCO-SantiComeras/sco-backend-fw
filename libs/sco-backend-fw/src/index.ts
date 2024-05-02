@@ -1,26 +1,26 @@
 // Library
-export * from './sco-backend-fw.module';
+export * from './sco-backend-fw-library.module';
 
 // Core
-export * from './sco-backend/sco-backend.module';
-export * from './sco-backend/sco-backend.controller';
-export * from './sco-backend/sco-backend.service';
+export * from './sco-backend-fw/sco-backend-fw.module';
+export * from './sco-backend-fw/sco-backend-fw.controller';
+export * from './sco-backend-fw/sco-backend-fw.service';
 
 // Config
-export * from './sco-backend/config/sco-backend.config';
+export * from './sco-backend-fw/config/sco-backend-fw.config';
 
 // Http Errors
-export * from './sco-backend/http-errors/http-errors.constants';
-export * from './sco-backend/http-errors/http-status.constants';
+export * from './sco-backend-fw/http-errors/http-errors.constants';
+export * from './sco-backend-fw/http-errors/http-status.constants';
 
 // Interfaces
-export * from './sco-backend/interfaces/icore.interface';
-export * from './sco-backend/interfaces/ifile-function-param.interface';
-export * from './sco-backend/interfaces/ifile-function-response.interface';
-export * from './sco-backend/interfaces/ifile-function.interface';
+export * from './sco-backend-fw/interfaces/icore.interface';
+export * from './sco-backend-fw/interfaces/ifile-function-param.interface';
+export * from './sco-backend-fw/interfaces/ifile-function-response.interface';
+export * from './sco-backend-fw/interfaces/ifile-function.interface';
 
 // Logger
-export * from './sco-backend/logger/logger.service';
+export * from './sco-backend-fw/logger/logger.service';
 
 // Types
-export * from './sco-backend/types/types.constants';
+export * from './sco-backend-fw/types/types.constants';
