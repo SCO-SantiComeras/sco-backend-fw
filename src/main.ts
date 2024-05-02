@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { LoggerService } from './../libs/sco-backend-fw/src/core/logger/logger.service';
+import { LoggerService } from './../libs/sco-backend-fw/src/sco-backend/logger/logger.service';
 
 async function bootstrap() {
 

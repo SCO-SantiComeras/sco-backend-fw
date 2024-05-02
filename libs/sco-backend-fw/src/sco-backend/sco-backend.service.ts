@@ -2,11 +2,11 @@ import { Inject, Injectable, ValidationPipe } from '@nestjs/common';
 import * as fs from 'fs';
 import * as ts from "typescript";
 import { IFileFunction } from './interfaces/ifile-function.interface';
-import { CoreConfig } from './config/core.config';
+import { ScoBackendConfig } from './config/sco-backend.config';
 import { TYPES } from './types/types.constants';
 
 @Injectable()
-export class CoreService {
+export class ScoBackendService {
 
   private _filesPath: string;
   private _filesFolder: string;
@@ -16,7 +16,7 @@ export class CoreService {
   private _TYPES = TYPES;
 
   constructor(
-    @Inject('CONFIG_OPTIONS') private options: CoreConfig,
+    @Inject('CONFIG_OPTIONS') private options: ScoBackendConfig,
     private readonly validationPipe: ValidationPipe,
   ) {
     this._filesPath = this.options.path || './src';

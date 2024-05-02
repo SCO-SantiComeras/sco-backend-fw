@@ -1,16 +1,13 @@
-import { CoreModule } from './core/core.module';
 
 import { Module } from '@nestjs/common';
+import { ScoBackendModule } from './sco-backend/sco-backend.module';
 
 @Module({
   imports: [
-    CoreModule,
-  ],
-  providers: [
-
+    ScoBackendModule,
   ],
   exports: [
-    CoreModule,
+    ScoBackendModule,
   ],
 })
 

@@ -2,25 +2,25 @@
 export * from './sco-backend-fw.module';
 
 // Core
-export * from './core/core.module';
-export * from './core/core.controller';
-export * from './core/core.service';
+export * from './sco-backend/sco-backend.module';
+export * from './sco-backend/sco-backend.controller';
+export * from './sco-backend/sco-backend.service';
 
 // Config
-export * from './core/config/core.config';
+export * from './sco-backend/config/sco-backend.config';
 
 // Http Errors
-export * from './core/http-errors/http-errors.constants';
-export * from './core/http-errors/http-status.constants';
+export * from './sco-backend/http-errors/http-errors.constants';
+export * from './sco-backend/http-errors/http-status.constants';
 
 // Interfaces
-export * from './core/interfaces/icore.interface';
-export * from './core/interfaces/ifile-function-param.interface';
-export * from './core/interfaces/ifile-function-response.interface';
-export * from './core/interfaces/ifile-function.interface';
+export * from './sco-backend/interfaces/icore.interface';
+export * from './sco-backend/interfaces/ifile-function-param.interface';
+export * from './sco-backend/interfaces/ifile-function-response.interface';
+export * from './sco-backend/interfaces/ifile-function.interface';
 
 // Logger
-export * from './core/logger/logger.service';
+export * from './sco-backend/logger/logger.service';
 
 // Types
-export * from './core/types/types.constants';
+export * from './sco-backend/types/types.constants';

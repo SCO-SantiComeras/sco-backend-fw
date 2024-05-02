@@ -2,21 +2,21 @@ import { Body, Controller, HttpException, Inject, Param, Post, Req, Res } from '
 import { Response, Request } from 'express';
 import { IFileFunction } from './interfaces/ifile-function.interface';
 import { IFileFunctionResponse } from './interfaces/ifile-function-response.interface';
-import { CoreService } from './core.service';
-import { CoreConfig } from './config/core.config';
+import { ScoBackendService } from './sco-backend.service';
+import { ScoBackendConfig } from './config/sco-backend.config';
 import { HTTP_ERRORS } from './http-errors/http-errors.constants';
 import { HTTP_STATUS } from './http-errors/http-status.constants';
 import { TYPES } from './types/types.constants';
 
 @Controller('api/v1')
-export class CoreController {
+export class ScoBackendController {
 
   private _FUNCTION_FILES: IFileFunction[];
   private _TYPES = TYPES;
 
   constructor(
-    @Inject('CONFIG_OPTIONS') private options: CoreConfig,
-    private readonly coreService: CoreService,
+    @Inject('CONFIG_OPTIONS') private options: ScoBackendConfig,
+    private readonly backendService: ScoBackendService,
   ) {}
 
   @Post(':path/:file')
@@ -61,7 +61,7 @@ export class CoreController {
     }
 
     /* Check If Function Files Header Is Provided */
-    this._FUNCTION_FILES = this.coreService.setFunctionFilesConstantsHeader(req.headers.FUNCTION_FILES);
+    this._FUNCTION_FILES = this.backendService.setFunctionFilesConstantsHeader(req.headers.FUNCTION_FILES);
     if (!this._FUNCTION_FILES || (this._FUNCTION_FILES && this._FUNCTION_FILES.length == 0)) {
       console.log(`[GlobalApi] File function '${path}/${file}' constants header not provided`);
       throw new HttpException(HTTP_ERRORS.APP.FILE_FUNCTIONS_HEADER_NOT_PROVIDED, HTTP_STATUS.INTERNAL_SERVER_ERROR);
@@ -75,48 +75,48 @@ export class CoreController {
     }
 
     /* Format Types */
-    this._TYPES = this.coreService.setTypes(req.headers.types);
+    this._TYPES = this.backendService.setTypes(req.headers.types);
     if (!this._TYPES) {
       console.log(`[GlobalApi] File function '${path}/${file}' types header not provided`);
       throw new HttpException(HTTP_ERRORS.APP.TYPES_HEADER_NOT_PROVIDED, HTTP_STATUS.INTERNAL_SERVER_ERROR);
     }
 
     /* Found File Function Constant */
-    const fileFunctionConstant: IFileFunction = this.coreService.getFileFunctionConstant(path, file);
+    const fileFunctionConstant: IFileFunction = this.backendService.getFileFunctionConstant(path, file);
     if (!fileFunctionConstant) {
       console.log(`[GlobalApi] File function '${path}/${file}' constants not found`);
       throw new HttpException(HTTP_ERRORS.CONTROLLER.FILE_FUNCTION_CONSTANTS_NOT_FOUND, HTTP_STATUS.NOT_FOUND);
     }
 
     /* Check If File Function exists */
-    if (!this.coreService.checkIfFileFunctionExists(fileFunctionConstant)) {
+    if (!this.backendService.checkIfFileFunctionExists(fileFunctionConstant)) {
       console.log(`[GlobalApi] File function '${path}/${file}' not exists`);
       throw new HttpException(HTTP_ERRORS.CONTROLLER.FILE_FUNCTION_NOT_EXISTS, HTTP_STATUS.NOT_FOUND);
     }
 
     /* Check If Function File Params Are Reported */
-    const paramsReported: boolean = this.coreService.checkFileFunctionsParamReported(fileFunctionConstant, body);
+    const paramsReported: boolean = this.backendService.checkFileFunctionsParamReported(fileFunctionConstant, body);
     if (!paramsReported) {
       console.log(`[GlobalApi] File function '${path}/${file}' params not provided`);
       throw new HttpException(HTTP_ERRORS.CONTROLLER.FILE_FUNCTION_PARAMS_NOT_PROVIDED, HTTP_STATUS.PAYMENT_REQUIRED);
     }
 
     /* Check if function file params types are valid */
-    const paramError: string = await this.coreService.checkFileFunctionParamsTypes(fileFunctionConstant, body);
+    const paramError: string = await this.backendService.checkFileFunctionParamsTypes(fileFunctionConstant, body);
     if (paramError) {
       console.log(`[GlobalApi] File function '${path}/${file}' ${paramError}`);
       throw new HttpException(`${paramError[0].toUpperCase()}${paramError.substring(1, paramError.length)}`, HTTP_STATUS.BAD_REQUEST);
     }
 
     /* Convert file to TS/JS ussable code */
-    const buffer: string = this.coreService.getFileFunctionBuffer(fileFunctionConstant);
+    const buffer: string = this.backendService.getFileFunctionBuffer(fileFunctionConstant);
     if (!buffer) {
       console.log(`[GlobalApi] File function '${path}/${file}' unnable to convert file to buffer`);
       throw new HttpException(HTTP_ERRORS.CONTROLLER.FILE_FUNCTION_UNNABLE_CONVERT_BUFFER, HTTP_STATUS.INTERNAL_SERVER_ERROR);
     }
 
     /* Parse ussable code to variable */
-    const funct: any = this.coreService.convertBufferToFunction(buffer);
+    const funct: any = this.backendService.convertBufferToFunction(buffer);
     if (!funct) {
       console.log(`[GlobalApi] File function '${path}/${file}' unnable to convert buffer to function`);
       throw new HttpException(HTTP_ERRORS.CONTROLLER.FILE_FUNCTION_UNNABLE_CONVERT_FUNCTION, HTTP_STATUS.INTERNAL_SERVER_ERROR);
