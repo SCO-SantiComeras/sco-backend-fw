@@ -12,7 +12,7 @@ import { AppInterceptor } from './app.interceptor';
         return {
           verbose: true,
           path: './src',
-          folder: 'functions',
+          folder: 'controller',
           extension: 'ts',
           response: false,
           validationPipe: true,
