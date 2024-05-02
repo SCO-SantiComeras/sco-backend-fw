@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { TYPES } from './../libs/sco-backend-fw/src/sco-backend/types/types.constants';
-import { IFileFunction } from './../dist/libs/sco-backend-fw/core/interfaces/ifile-function.interface.d';
-import { ICore } from './../dist/libs/sco-backend-fw/core/interfaces/icore.interface.d';
+import { ICore } from './../libs/sco-backend-fw/src/sco-backend/interfaces/icore.interface';
+import { IFileFunction } from "./../libs/sco-backend-fw/src/sco-backend/interfaces/ifile-function.interface";
 
 @Injectable()
 export class AppService implements ICore {
