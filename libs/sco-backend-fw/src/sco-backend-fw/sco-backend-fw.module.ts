@@ -3,6 +3,8 @@ import { ScoBackendFwService } from "./sco-backend-fw.service";
 import { ScoBackendFwController } from "./sco-backend-fw.controller";
 import { ScoBackendFwConfig } from "./config/sco-backend-fw.config";
 import { LoggerService } from "./logger/logger.service";
+import { FileFunctionsService } from "./file-functions/file-functions.service";
+import { HeadersService } from "./headers/headers.service";
 
 interface ScoBackendFwConfigFactory {
   createScoBackendFwConfig(): Promise<ScoBackendFwConfig> | ScoBackendFwConfig;
@@ -30,6 +32,8 @@ export class ScoBackendFwModule {
         ScoBackendFwService,
         LoggerService,
         ValidationPipe,
+        FileFunctionsService,
+        HeadersService,
         {
           provide: 'CONFIG_OPTIONS',
           useValue: options,
@@ -38,6 +42,8 @@ export class ScoBackendFwModule {
       exports: [
         ScoBackendFwService,
         LoggerService,
+        FileFunctionsService,
+        HeadersService,
       ],
       global: true,
     };
@@ -56,11 +62,15 @@ export class ScoBackendFwModule {
         ScoBackendFwService, 
         LoggerService,
         ValidationPipe,
+        FileFunctionsService,
+        HeadersService,
         ...this.createConnectProviders(options)
       ],
       exports: [
         ScoBackendFwService,
         LoggerService,
+        FileFunctionsService,
+        HeadersService,
       ],
       global: true,
     };

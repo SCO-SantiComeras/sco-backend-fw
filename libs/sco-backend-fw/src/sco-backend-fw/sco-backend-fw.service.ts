@@ -4,6 +4,7 @@ import * as ts from "typescript";
 import { IFileFunction } from './interfaces/ifile-function.interface';
 import { ScoBackendFwConfig } from './config/sco-backend-fw.config';
 import { TYPES } from './types/types.constants';
+import { HTTP_ERRORS_TYPES } from './http-errors/http-errors-types.constants';
 
 @Injectable()
 export class ScoBackendFwService {
@@ -12,7 +13,7 @@ export class ScoBackendFwService {
   private _filesFolder: string;
   private _filesExtension: string;
 
-  private _FUNCTION_FILES: IFileFunction[];
+  private _FILE_FUNCTIONS: IFileFunction[];
   private _TYPES = TYPES;
 
   constructor(
@@ -26,8 +27,8 @@ export class ScoBackendFwService {
 
   public setFunctionFilesConstantsHeader(constant: any): IFileFunction[] {
     const format: IFileFunction[] = constant;
-    this._FUNCTION_FILES = format;
-    return this._FUNCTION_FILES;
+    this._FILE_FUNCTIONS = format;
+    return this._FILE_FUNCTIONS;
   }
 
   public setTypes(constant: any): any {
@@ -60,12 +61,12 @@ export class ScoBackendFwService {
   }
 
   public getFileFunctionConstant(path: string, file: string): any {
-    if (!Object.values(this._FUNCTION_FILES) || (Object.values(this._FUNCTION_FILES) && Object.values(this._FUNCTION_FILES).length == 0)) {
+    if (!Object.values(this._FILE_FUNCTIONS) || (Object.values(this._FILE_FUNCTIONS) && Object.values(this._FILE_FUNCTIONS).length == 0)) {
       return undefined;
     }
     
     let nameConstants: any[] = [];
-    for (const constat of Object.values(this._FUNCTION_FILES)) {
+    for (const constat of Object.values(this._FILE_FUNCTIONS)) {
       if (file.toUpperCase() == constat.file.toUpperCase()) {
         nameConstants.push(constat);
       }
@@ -185,5 +186,19 @@ export class ScoBackendFwService {
     const result: string = ts.transpile(code);
     const runnalbe: any = eval(result);
     return runnalbe ? runnalbe : undefined;
+  }
+
+  public resultIsHttpError(result: any): boolean {
+    if (result && result.type) {
+      const existHttpErrorValue: string = Object.values(HTTP_ERRORS_TYPES).find(
+        e => e.toUpperCase() == result.type.toUpperCase()
+      );
+
+      if (existHttpErrorValue) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

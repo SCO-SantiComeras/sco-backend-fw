@@ -12,6 +12,8 @@ export * from './sco-backend-fw/config/sco-backend-fw.config';
 // Http Errors
 export * from './sco-backend-fw/http-errors/http-errors.constants';
 export * from './sco-backend-fw/http-errors/http-status.constants';
+export * from './sco-backend-fw/http-errors/http-error';
+export * from './sco-backend-fw/http-errors/http-errors-types.constants';
 
 // Interfaces
 export * from './sco-backend-fw/interfaces/icore.interface';
@@ -24,3 +26,10 @@ export * from './sco-backend-fw/logger/logger.service';
 
 // Types
 export * from './sco-backend-fw/types/types.constants';
+
+// File Functions
+export * from './sco-backend-fw/file-functions/file-functions.service';
+
+// Headers
+export * from './sco-backend-fw/headers/headers.constants';
+export * from './sco-backend-fw/headers/headers.service';

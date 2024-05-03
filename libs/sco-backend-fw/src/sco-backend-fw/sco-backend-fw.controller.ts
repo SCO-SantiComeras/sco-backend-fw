@@ -7,16 +7,19 @@ import { ScoBackendFwConfig } from './config/sco-backend-fw.config';
 import { HTTP_ERRORS } from './http-errors/http-errors.constants';
 import { HTTP_STATUS } from './http-errors/http-status.constants';
 import { TYPES } from './types/types.constants';
+import { HEADERS } from './headers/headers.constants';
+import { HeadersService } from './headers/headers.service';
 
 @Controller('api/v1')
 export class ScoBackendFwController {
 
-  private _FUNCTION_FILES: IFileFunction[];
+  private _FILE_FUNCTIONS: IFileFunction[];
   private _TYPES = TYPES;
 
   constructor(
     @Inject('CONFIG_OPTIONS') private options: ScoBackendFwConfig,
     private readonly backendFwService: ScoBackendFwService,
+    private readonly headersService: HeadersService,
   ) {}
 
   @Post(':path/:file')
@@ -27,22 +30,29 @@ export class ScoBackendFwController {
     @Param('file') file: string,
     @Body() body: any,
   ): Promise<Response<any | IFileFunctionResponse, Record<string, any | IFileFunctionResponse>>> {
+    
+    /* Validate Interceptor Headers */
+    const headerError: string = this.headersService.validateInterceptorHeaders(req.headers);
+    if (headerError) {
+      console.log(`[GlobalApi] Header '${headerError}' interceptor not provided`);
+      throw new HttpException(HTTP_ERRORS.APP.HEADER_INTERCEPTOR_NOT_PROVIDED, HTTP_STATUS.INTERNAL_SERVER_ERROR);
+    }
 
     /* Validation Passport */
     if (this.options.validationPassport) {
-      const validationPassport: any = req.headers.validationPassport;
+      const validationPassport: any = req.headers[HEADERS.VALIDATION_PASSPORT];
       if (!validationPassport) {
         console.log(`[GlobalApi] ${HTTP_ERRORS.APP.VALIDATION_PASSPORT_CALLBACK_NOT_PROVIDED}`);
         throw new HttpException(HTTP_ERRORS.APP.VALIDATION_PASSPORT_CALLBACK_NOT_PROVIDED, HTTP_STATUS.INTERNAL_SERVER_ERROR);
       }
 
-      if (!await validationPassport(req.headers.authorization)) {
+      if (!await validationPassport(req.headers[HEADERS.AUTHORIZATION])) {
         console.log(`[GlobalApi] Validation passport unauthorized`);
         throw new HttpException(HTTP_ERRORS.APP.UNAUTHORIZED, HTTP_STATUS.UNAUTHORIZED);
       }
     }
 
-    /* Initial Data */
+    /* Initial Data Info */
     this.options.verbose ? console.log(`[GlobalApi] Start function: ${path}/${file}`) : undefined;
     if (Object.values(body) && Object.values(body).length > 0) {
       this.options.verbose ? console.log(`[GlobalApi] body: ${JSON.stringify(body)}`) : undefined;
@@ -61,21 +71,21 @@ export class ScoBackendFwController {
     }
 
     /* Check If Function Files Header Is Provided */
-    this._FUNCTION_FILES = this.backendFwService.setFunctionFilesConstantsHeader(req.headers.FUNCTION_FILES);
-    if (!this._FUNCTION_FILES || (this._FUNCTION_FILES && this._FUNCTION_FILES.length == 0)) {
+    this._FILE_FUNCTIONS = this.backendFwService.setFunctionFilesConstantsHeader(req.headers[HEADERS.ROUTES]);
+    if (!this._FILE_FUNCTIONS || (this._FILE_FUNCTIONS && this._FILE_FUNCTIONS.length == 0)) {
       console.log(`[GlobalApi] File function '${path}/${file}' constants header not provided`);
       throw new HttpException(HTTP_ERRORS.APP.FILE_FUNCTIONS_HEADER_NOT_PROVIDED, HTTP_STATUS.INTERNAL_SERVER_ERROR);
     }
 
     /* Check If Providers Header Is Provided */
-    const providers: any = req && req.headers && req.headers.providers ? req.headers.providers : undefined;
+    const providers: any = req && req.headers && req.headers[HEADERS.PROVIDERS] ? req.headers[HEADERS.PROVIDERS] : undefined;
     if (providers == undefined) {
       console.log(`[GlobalApi] File function '${path}/${file}' providers header not provided`);
       throw new HttpException(HTTP_ERRORS.APP.PROVIDERS_HEADER_NOT_PROVIDED, HTTP_STATUS.INTERNAL_SERVER_ERROR);
     }
 
     /* Format Types */
-    this._TYPES = this.backendFwService.setTypes(req.headers.types);
+    this._TYPES = this.backendFwService.setTypes(req.headers[HEADERS.TYPES]);
     if (!this._TYPES) {
       console.log(`[GlobalApi] File function '${path}/${file}' types header not provided`);
       throw new HttpException(HTTP_ERRORS.APP.TYPES_HEADER_NOT_PROVIDED, HTTP_STATUS.INTERNAL_SERVER_ERROR);
@@ -122,14 +132,16 @@ export class ScoBackendFwController {
       throw new HttpException(HTTP_ERRORS.CONTROLLER.FILE_FUNCTION_UNNABLE_CONVERT_FUNCTION, HTTP_STATUS.INTERNAL_SERVER_ERROR);
     }
 
-    /* Get Result from variable function */
+    /* Execute variable code and get result */
     const result: any = await funct(body, providers);
     let typeOf: string = typeof result;
 
-    if (result && result.type && result.type == 'HttpException') {
+    /* CHeck If Result Is Http Error */
+    if (this.backendFwService.resultIsHttpError(result)) {
       throw new HttpException(result.message, result.code);
     }
 
+    /* Check If Result Is Object To Set Type The Result Object Constructor */
     if (typeOf.toUpperCase() == this._TYPES.OBJECT.toUpperCase()) {
       typeOf = result.constructor.name;
     }
@@ -140,9 +152,8 @@ export class ScoBackendFwController {
       throw new HttpException(HTTP_ERRORS.CONTROLLER.FILE_FUNCTION_RESULT_NOT_MATCH, HTTP_STATUS.CONFLICT);
     }
 
-    this.options.verbose ? console.log(`[GlobalApi] Result of function '${path}/${file}': ${result}`) : undefined;
-
     /* Return result if response is not required */
+    this.options.verbose ? console.log(`[GlobalApi] Result of function '${path}/${file}': ${result}`) : undefined;
     if (!this.options.response) {
       return res.status(200).json(result);
     }

@@ -8,6 +8,7 @@ export const HTTP_ERRORS = {
     FILE_FUNCTIONS_HEADER_NOT_PROVIDED: 'File functions header not provided',
     PROVIDERS_HEADER_NOT_PROVIDED: 'Providers header not provided',
     TYPES_HEADER_NOT_PROVIDED: 'Types header not provided',
+    HEADER_INTERCEPTOR_NOT_PROVIDED: 'Header interceptor not provided',
   },
   CONTROLLER: {
     FILE_FUNCTION_NOT_PROVIDED: 'File function not provided',
