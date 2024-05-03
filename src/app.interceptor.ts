@@ -2,6 +2,7 @@ import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nes
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AppService } from './app.service';
+import { HEADERS } from '../libs/sco-backend-fw/src/sco-backend-fw/headers/headers.constants';
 
 @Injectable()
 export class AppInterceptor implements NestInterceptor {
@@ -11,16 +12,16 @@ export class AppInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     /* Set Function Files Constants Header */
-    context.switchToHttp().getRequest().headers['FUNCTION_FILES'] = this.appService.getFuntionFilesConstants();
+    context.switchToHttp().getRequest().headers[HEADERS.ROUTES] = this.appService.getFileFunctionsConstants();
 
     /* Set Providers Header */
-    context.switchToHttp().getRequest().headers['providers'] = this.appService;
+    context.switchToHttp().getRequest().headers[HEADERS.PROVIDERS] = this.appService;
 
     /* Set Validation Passport Callback */
-    context.switchToHttp().getRequest().headers['validationPassport'] = this.appService.validationPassportCallback.bind(this.appService);
+    context.switchToHttp().getRequest().headers[HEADERS.VALIDATION_PASSPORT] = this.appService.validationPassportCallback.bind(this.appService);
 
     /* Set Types */
-    context.switchToHttp().getRequest().headers['types'] = this.appService.getTypesConstants();
+    context.switchToHttp().getRequest().headers[HEADERS.TYPES] = this.appService.getTypesConstants();
     
     return next.handle().pipe(
       tap(() => {
