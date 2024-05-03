@@ -12,13 +12,13 @@ export class AppService implements ICore {
     ) {}
 
     /*  Function Files Constants*/
-    getFuntionFilesConstants(): IFileFunction[] {
+    getFileFunctionsConstants(): IFileFunction[] {
         return [
             /* Global */
             {
                 file: 'hello',
                 path: 'global',
-                resultType: 'string',
+                resultType: TYPES.STRING,
             },
         ];
     }
