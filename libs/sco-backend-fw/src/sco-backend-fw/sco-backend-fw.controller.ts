@@ -38,26 +38,6 @@ export class ScoBackendFwController {
       throw new HttpException(HTTP_ERRORS.APP.HEADER_INTERCEPTOR_NOT_PROVIDED, HTTP_STATUS.INTERNAL_SERVER_ERROR);
     }
 
-    /* Validation Passport */
-    if (this.options.validationPassport) {
-      const validationPassport: any = req.headers[HEADERS.VALIDATION_PASSPORT];
-      if (!validationPassport) {
-        console.log(`[GlobalApi] ${HTTP_ERRORS.APP.VALIDATION_PASSPORT_CALLBACK_NOT_PROVIDED}`);
-        throw new HttpException(HTTP_ERRORS.APP.VALIDATION_PASSPORT_CALLBACK_NOT_PROVIDED, HTTP_STATUS.INTERNAL_SERVER_ERROR);
-      }
-
-      if (!await validationPassport(req.headers[HEADERS.AUTHORIZATION])) {
-        console.log(`[GlobalApi] Validation passport unauthorized`);
-        throw new HttpException(HTTP_ERRORS.APP.UNAUTHORIZED, HTTP_STATUS.UNAUTHORIZED);
-      }
-    }
-
-    /* Initial Data Info */
-    this.options.verbose ? console.log(`[GlobalApi] Start function: ${path}/${file}`) : undefined;
-    if (Object.values(body) && Object.values(body).length > 0) {
-      this.options.verbose ? console.log(`[GlobalApi] body: ${JSON.stringify(body)}`) : undefined;
-    }
-    
     /* Check If Path Function Param Is Reported */
     if (!path) {
       console.log(`[GlobalApi] File function path not provided`);
@@ -77,6 +57,33 @@ export class ScoBackendFwController {
       throw new HttpException(HTTP_ERRORS.APP.FILE_FUNCTIONS_HEADER_NOT_PROVIDED, HTTP_STATUS.INTERNAL_SERVER_ERROR);
     }
 
+    /* Found File Function Constant */
+    const fileFunctionConstant: IFileFunction = this.backendFwService.getFileFunctionConstant(path, file);
+    if (!fileFunctionConstant) {
+      console.log(`[GlobalApi] File function '${path}/${file}' constants not found`);
+      throw new HttpException(HTTP_ERRORS.CONTROLLER.FILE_FUNCTION_CONSTANTS_NOT_FOUND, HTTP_STATUS.NOT_FOUND);
+    }
+
+    /* Validation Passport */
+    if (this.options.validationPassport && fileFunctionConstant.validationPassport) {
+      const validationPassport: any = req.headers[HEADERS.VALIDATION_PASSPORT];
+      if (!validationPassport) {
+        console.log(`[GlobalApi] ${HTTP_ERRORS.APP.VALIDATION_PASSPORT_CALLBACK_NOT_PROVIDED}`);
+        throw new HttpException(HTTP_ERRORS.APP.VALIDATION_PASSPORT_CALLBACK_NOT_PROVIDED, HTTP_STATUS.INTERNAL_SERVER_ERROR);
+      }
+
+      if (!await validationPassport(req.headers[HEADERS.AUTHORIZATION])) {
+        console.log(`[GlobalApi] Validation passport unauthorized`);
+        throw new HttpException(HTTP_ERRORS.APP.UNAUTHORIZED, HTTP_STATUS.UNAUTHORIZED);
+      }
+    }
+
+    /* Initial Data Info */
+    this.options.verbose ? console.log(`[GlobalApi] Start function: ${path}/${file}`) : undefined;
+    if (Object.values(body) && Object.values(body).length > 0) {
+      this.options.verbose ? console.log(`[GlobalApi] body: ${JSON.stringify(body)}`) : undefined;
+    }
+
     /* Check If Providers Header Is Provided */
     const providers: any = req && req.headers && req.headers[HEADERS.PROVIDERS] ? req.headers[HEADERS.PROVIDERS] : undefined;
     if (providers == undefined) {
@@ -89,13 +96,6 @@ export class ScoBackendFwController {
     if (!this._TYPES) {
       console.log(`[GlobalApi] File function '${path}/${file}' types header not provided`);
       throw new HttpException(HTTP_ERRORS.APP.TYPES_HEADER_NOT_PROVIDED, HTTP_STATUS.INTERNAL_SERVER_ERROR);
-    }
-
-    /* Found File Function Constant */
-    const fileFunctionConstant: IFileFunction = this.backendFwService.getFileFunctionConstant(path, file);
-    if (!fileFunctionConstant) {
-      console.log(`[GlobalApi] File function '${path}/${file}' constants not found`);
-      throw new HttpException(HTTP_ERRORS.CONTROLLER.FILE_FUNCTION_CONSTANTS_NOT_FOUND, HTTP_STATUS.NOT_FOUND);
     }
 
     /* Check If File Function exists */

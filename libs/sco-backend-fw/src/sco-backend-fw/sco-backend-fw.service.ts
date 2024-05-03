@@ -139,7 +139,7 @@ export class ScoBackendFwService {
       }
 
       if (param.type.toUpperCase() == this._TYPES.OBJECT.toUpperCase()) {
-        if (param.dto && this.options.validationPipe) {
+        if (param.dto && fileFunctionConstant.validationPipe && this.options.validationPipe) {
           try {
             await this.validationPipe.transform(body[param.name], { type: 'body', metatype: param.dto });
           } catch (error) {

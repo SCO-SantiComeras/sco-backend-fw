@@ -5,4 +5,6 @@ export interface IFileFunction {
     path: string;
     params?: IFileFunctionParam[];
     resultType: string;
+    validationPipe?: boolean;
+    validationPassport?: boolean;
 }
