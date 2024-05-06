@@ -18,6 +18,7 @@ export class HeadersService {
   public validateInterceptorHeaders(headers: any): string {
     const excludeHeaders: string[] = [
       HEADERS.AUTHORIZATION,
+      HEADERS.TYPES,
     ];
 
     const headerValues: string[] = Object.values(HEADERS);
