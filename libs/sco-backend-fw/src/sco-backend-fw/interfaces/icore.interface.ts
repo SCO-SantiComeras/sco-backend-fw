@@ -1,7 +1,7 @@
 import { IFileFunction } from "./ifile-function.interface";
 
 export interface ICore {
-    getFileFunctionsConstants(): IFileFunction[];
+    createControllerRoutes(): IFileFunction[];
     validationPassportCallback(authorization: string): Promise<boolean>;
-    getTypesConstants(): any;
+    setCustomResultTypes(): any;
 }

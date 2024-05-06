@@ -12,7 +12,7 @@ export class AppService implements ICore {
     ) {}
 
     /*  Function Files Constants*/
-    getFileFunctionsConstants(): IFileFunction[] {
+    createControllerRoutes(): IFileFunction[] {
         return [
             /* Global */
             {
@@ -33,7 +33,7 @@ export class AppService implements ICore {
     }
 
     /* Types */
-    getTypesConstants(): any {
+    setCustomResultTypes(): any {
         return {
             ...TYPES,
         }

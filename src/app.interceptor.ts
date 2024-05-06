@@ -12,7 +12,7 @@ export class AppInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     /* Set Function Files Constants Header */
-    context.switchToHttp().getRequest().headers[HEADERS.ROUTES] = this.appService.getFileFunctionsConstants();
+    context.switchToHttp().getRequest().headers[HEADERS.ROUTES] = this.appService.createControllerRoutes();
 
     /* Set Providers Header */
     context.switchToHttp().getRequest().headers[HEADERS.PROVIDERS] = this.appService;
@@ -21,7 +21,7 @@ export class AppInterceptor implements NestInterceptor {
     context.switchToHttp().getRequest().headers[HEADERS.VALIDATION_PASSPORT] = this.appService.validationPassportCallback.bind(this.appService);
 
     /* Set Types */
-    context.switchToHttp().getRequest().headers[HEADERS.TYPES] = this.appService.getTypesConstants();
+    context.switchToHttp().getRequest().headers[HEADERS.TYPES] = this.appService.setCustomResultTypes();
     
     return next.handle().pipe(
       tap(() => {
