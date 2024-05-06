@@ -14,8 +14,14 @@
 
 ## Installation
 
+Install ScoBackendFw dependency in existing proyect
 <pre>
 npm i sco-backend-fw
+</pre>
+
+Install ScoBackendFwCore global dependency and create a new ScoBackendFw proyect
+<pre>
+npm i -g sco-backend-fw-core && sco-backend-fw your-new-proyect
 </pre>
 
 ## Main features
@@ -119,7 +125,7 @@ export class AppService {
 
   /* Add Own Dependencies */
   constructor(
-      private readonly httpErrorsService: HttpErrorsService,
+    private readonly httpErrorsService: HttpErrorsService,
   ) {}
 }
 </pre>
@@ -127,20 +133,20 @@ export class AppService {
 <pre>
 # global.routes controller-routes file
 
-export const GLOBAL_ROUTES_PATH: string = 'global';
+export const GLOBAL_ROUTES_PATH: string = 'global'; // Controller name
 
-export const GLOBAL_ROUTES_NAMES = {
+export const GLOBAL_ROUTES_NAMES = { // Controller routes
   HELLO: 'hello',
 };
 
 export const GLOBAL_ROUTES: IFileFunction[] = [
   {
-    endpoint: true,
-    file: GLOBAL_ROUTES_NAMES.HELLO,
-    path: GLOBAL_ROUTES_PATH,
-    resultType: TYPES.STRING,
-    validationPipe: false,
-    validationPassport: false,
+    endpoint: true, // Declare if function file is callable vía HTTP
+    file: GLOBAL_ROUTES_NAMES.HELLO, // File name
+    path: GLOBAL_ROUTES_PATH, // File folder in main controllers folder (controller/global)
+    resultType: TYPES.STRING, // Result type of the function file
+    validationPipe: false, // Function file params required to validate a Dto
+    validationPassport: false, // Enable function file JWT / Passport validation
   },
 ];
 </pre>
@@ -182,7 +188,7 @@ async (body: {
   } as HttpError;
 } */
 
-async () => {
+() => {
   return 'Hello World!';
 }
 </pre>
@@ -202,12 +208,6 @@ export class CoreService implements ICore {
     return [
       /* Global */
       ...GLOBAL_ROUTES,
-
-      /* Calculator */
-      ...CALCULATOR_ROUTES,
-  
-      /* Users */
-      ...USERS_ROUTES,
     ];
   }
 
