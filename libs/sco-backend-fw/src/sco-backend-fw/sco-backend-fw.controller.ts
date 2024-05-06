@@ -64,6 +64,12 @@ export class ScoBackendFwController {
       throw new HttpException(HTTP_ERRORS.CONTROLLER.FILE_FUNCTION_CONSTANTS_NOT_FOUND, HTTP_STATUS.NOT_FOUND);
     }
 
+    /* Validation Endpoint */
+    if (fileFunctionConstant.endpoint == false || fileFunctionConstant.endpoint == undefined) {
+      console.log(`[GlobalApi] File function '${path}/${file}' is not endpoint`);
+      throw new HttpException(HTTP_ERRORS.CONTROLLER.FILE_FUNCTION_NOT_ENDPOINT, HTTP_STATUS.INTERNAL_SERVER_ERROR);
+    }
+
     /* Validation Passport */
     if (this.options.validationPassport && fileFunctionConstant.validationPassport) {
       const validationPassport: any = req.headers[HEADERS.VALIDATION_PASSPORT];
@@ -149,7 +155,12 @@ export class ScoBackendFwController {
     }
 
     /* Check if result type if the same that functino file result */
-    if (typeOf.toUpperCase() != fileFunctionConstant.resultType.toUpperCase() && this.options.strictResult) {
+    if (
+      typeOf.toUpperCase() != fileFunctionConstant.resultType.toUpperCase() 
+      && this.options.strictResult
+      && fileFunctionConstant.resultType != this._TYPES.VOID
+      && fileFunctionConstant.resultType != this._TYPES.ANY
+    ) {
       console.log(`[GlobalApi] File function '${path}/${file}' result type (${fileFunctionConstant.resultType}) not match resulty type (${typeOf})`);
       throw new HttpException(HTTP_ERRORS.CONTROLLER.FILE_FUNCTION_RESULT_NOT_MATCH, HTTP_STATUS.CONFLICT);
     }
