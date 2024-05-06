@@ -3,7 +3,7 @@ import { Response, Request } from 'express';
 import { IFileFunction } from './interfaces/ifile-function.interface';
 import { IFileFunctionResponse } from './interfaces/ifile-function-response.interface';
 import { ScoBackendFwService } from './sco-backend-fw.service';
-import { ScoBackendFwConfig } from './config/sco-backend-fw.config';
+import { ScoBackendFwConfig } from './sco-backend-fw.config';
 import { HTTP_ERRORS } from './http-errors/http-errors.constants';
 import { HTTP_STATUS } from './http-errors/http-status.constants';
 import { TYPES } from './types/types.constants';

@@ -2,7 +2,7 @@ import { Inject, Injectable, ValidationPipe } from '@nestjs/common';
 import * as fs from 'fs';
 import * as ts from "typescript";
 import { IFileFunction } from './interfaces/ifile-function.interface';
-import { ScoBackendFwConfig } from './config/sco-backend-fw.config';
+import { ScoBackendFwConfig } from './sco-backend-fw.config';
 import { TYPES } from './types/types.constants';
 import { HTTP_ERRORS_TYPES } from './http-errors/http-errors-types.constants';
 

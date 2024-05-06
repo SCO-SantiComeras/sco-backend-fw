@@ -3,11 +3,9 @@ export * from './sco-backend-fw-library.module';
 
 // Core
 export * from './sco-backend-fw/sco-backend-fw.module';
+export * from './sco-backend-fw/sco-backend-fw.config';
 //export * from './sco-backend-fw/sco-backend-fw.controller';
 //export * from './sco-backend-fw/sco-backend-fw.service';
-
-// Config
-export * from './sco-backend-fw/config/sco-backend-fw.config';
 
 // Http Errors
 export * from './sco-backend-fw/http-errors/http-errors.constants';

@@ -1,7 +1,7 @@
 import { DynamicModule, Module, ModuleMetadata, Provider, Type, ValidationPipe } from "@nestjs/common";
 import { ScoBackendFwService } from "./sco-backend-fw.service";
 import { ScoBackendFwController } from "./sco-backend-fw.controller";
-import { ScoBackendFwConfig } from "./config/sco-backend-fw.config";
+import { ScoBackendFwConfig } from "./sco-backend-fw.config";
 import { LoggerService } from "./logger/logger.service";
 import { FileFunctionsService } from "./file-functions/file-functions.service";
 import { HeadersService } from "./headers/headers.service";
