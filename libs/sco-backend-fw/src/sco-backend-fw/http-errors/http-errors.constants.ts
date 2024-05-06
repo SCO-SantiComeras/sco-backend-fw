@@ -14,6 +14,7 @@ export const HTTP_ERRORS = {
     FILE_FUNCTION_NOT_PROVIDED: 'File function not provided',
     FILE_FUNCTION_PATH_NOT_PROVIDED: 'File function path not provided',
     FILE_FUNCTION_CONSTANTS_NOT_FOUND: 'File function constants not found',
+    FILE_FUNCTION_NOT_ENDPOINT: 'File function is not endpoint',
     FILE_FUNCTION_NOT_EXISTS: 'File function not exists',
     FILE_FUNCTION_PARAMS_NOT_PROVIDED: 'File function params not provided',
     FILE_FUNCTION_UNNABLE_CONVERT_BUFFER: 'File function unnable to convert file to buffer',

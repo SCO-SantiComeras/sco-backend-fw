@@ -16,6 +16,7 @@ export class AppService implements ICore {
         return [
             /* Global */
             {
+                endpoint: true,
                 file: 'hello',
                 path: 'global',
                 resultType: TYPES.STRING,
