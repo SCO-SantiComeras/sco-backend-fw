@@ -33,6 +33,3 @@ export * from './sco-backend-fw/file-functions/file-functions.service';
 // Headers
 export * from './sco-backend-fw/headers/headers.constants';
 export * from './sco-backend-fw/headers/headers.service';
-
-// Providers
-export * from './sco-backend-fw/providers/providers.service';

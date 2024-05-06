@@ -11,6 +11,7 @@ export class FileFunctionsService {
     this._FILE_FUNCTIONS = [];
   }
 
+  /* Management File Functions */
   public setFileFunctions(functionFiles: IFileFunction[]): void {
     if (functionFiles && functionFiles.length > 0) {
       this._FILE_FUNCTIONS = functionFiles;
@@ -83,6 +84,7 @@ export class FileFunctionsService {
     return undefined;
   }
 
+  /* Executable File Funtions */
   public getExecutableFileFunction(path: string, file: string): any {
     const existFileFunction: IFileFunction = this._FILE_FUNCTIONS.find(f => 
       f.path.toUpperCase() == path.toUpperCase() 
@@ -118,5 +120,34 @@ export class FileFunctionsService {
     }
 
     return result;
+  }
+
+  /* Providers File Functions */
+  public createProviders(constructorName: string, context: any): any[] {
+    // ConstructorName = this.constructor.name;
+    /* Set Own Class Provider Name */
+    const ownProviderName: string = `${constructorName[0].toLocaleLowerCase()}${constructorName.substring(1, constructorName.length)}`;
+
+    /* Set Own Class Provider */
+    let providers: any[] = [];
+    providers[ownProviderName] = context;
+
+    /* Get Own Class Providers Keys */
+    const keys: string[] = Object.keys(context);
+
+    /* Push Own Class Provider Value */
+    for (const key of keys) {
+      providers[key] = context[key];
+    }
+
+    return providers;
+  }
+
+  public getContextname(context: any): string {
+    if (context && context.constructor && context.constructor.name && context.constructor.name.length > 0) {
+      return context.constructor.name;
+    }
+
+    return undefined;
   }
 }
