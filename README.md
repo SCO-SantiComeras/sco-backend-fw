@@ -10,7 +10,9 @@
 
 ## Description
 
-[ScoBackendFw](https://github.com/SCO-SantiComeras/sco-backend-fw) framework TypeScript features export.
+[ScoBackendFw](https://github.com/SCO-SantiComeras/sco-backend-fw) framework TypeScript features export. 
+You can enable a global controller route based in encapsulated file functions based in TS or JS.
+These controller files are excluded from compiling by 'tsconfig.build.json' file and you can change controller files without restar the app, compiling or deploy again.
 
 ## Installation
 
@@ -229,8 +231,19 @@ export class CoreService implements ICore {
 }
 </pre>
 
+<pre>
+# Tsconfig.build.json file
+# You must add in exclude your main controller path and controller folder path declared in ScoBackendFw Config Module Import
+
+{
+  "extends": "./tsconfig.json",
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts", "src/controller", "controller"]
+}
+
+</pre>
+
 ## Example
-- http://scoapps.es:9000
+- http://scoapps.es:10000
 
 ## Support
 
