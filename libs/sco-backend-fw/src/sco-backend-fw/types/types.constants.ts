@@ -1,4 +1,5 @@
 export const TYPES = {
+  VOID: 'void',
   ANY: 'any',
   OBJECT: 'object',
   ARRAY: 'array',
