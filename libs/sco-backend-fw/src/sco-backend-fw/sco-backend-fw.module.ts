@@ -42,7 +42,7 @@ export class ScoBackendFwModule {
         },
       ],
       exports: [
-        ScoBackendFwService,
+        //ScoBackendFwService,
         LoggerService,
         FileFunctionsService,
         HeadersService,
@@ -71,7 +71,7 @@ export class ScoBackendFwModule {
         ...this.createConnectProviders(options)
       ],
       exports: [
-        ScoBackendFwService,
+        //ScoBackendFwService,
         LoggerService,
         FileFunctionsService,
         HeadersService,

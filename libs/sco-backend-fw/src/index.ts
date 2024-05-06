@@ -3,8 +3,8 @@ export * from './sco-backend-fw-library.module';
 
 // Core
 export * from './sco-backend-fw/sco-backend-fw.module';
-export * from './sco-backend-fw/sco-backend-fw.controller';
-export * from './sco-backend-fw/sco-backend-fw.service';
+//export * from './sco-backend-fw/sco-backend-fw.controller';
+//export * from './sco-backend-fw/sco-backend-fw.service';
 
 // Config
 export * from './sco-backend-fw/config/sco-backend-fw.config';
