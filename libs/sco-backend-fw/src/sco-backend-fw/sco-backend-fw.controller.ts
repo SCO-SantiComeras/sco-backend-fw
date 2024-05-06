@@ -92,7 +92,9 @@ export class ScoBackendFwController {
     }
 
     /* Format Types */
-    this._TYPES = this.backendFwService.setTypes(req.headers[HEADERS.TYPES]);
+    this._TYPES = req.headers[HEADERS.TYPES] != undefined 
+      ? this.backendFwService.setTypes(req.headers[HEADERS.TYPES])
+      : { ...TYPES };
     if (!this._TYPES) {
       console.log(`[GlobalApi] File function '${path}/${file}' types header not provided`);
       throw new HttpException(HTTP_ERRORS.APP.TYPES_HEADER_NOT_PROVIDED, HTTP_STATUS.INTERNAL_SERVER_ERROR);
@@ -147,7 +149,7 @@ export class ScoBackendFwController {
     }
 
     /* Check if result type if the same that functino file result */
-    if (typeOf.toUpperCase() != fileFunctionConstant.resultType.toUpperCase()) {
+    if (typeOf.toUpperCase() != fileFunctionConstant.resultType.toUpperCase() && this.options.strictResult) {
       console.log(`[GlobalApi] File function '${path}/${file}' result type (${fileFunctionConstant.resultType}) not match resulty type (${typeOf})`);
       throw new HttpException(HTTP_ERRORS.CONTROLLER.FILE_FUNCTION_RESULT_NOT_MATCH, HTTP_STATUS.CONFLICT);
     }
