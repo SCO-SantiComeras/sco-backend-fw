@@ -17,6 +17,7 @@ import { ScoBackendFwModule } from './../libs/sco-backend-fw/src/sco-backend-fw/
           response: false,
           validationPipe: true,
           validationPassport: true,
+          strictResult: false,
         };
       },
       inject: [],

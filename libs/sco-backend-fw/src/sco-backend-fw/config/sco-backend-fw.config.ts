@@ -6,4 +6,5 @@ export class ScoBackendFwConfig {
   response: boolean;
   validationPipe: boolean;
   validationPassport: boolean;
+  strictResult: boolean;
 }
