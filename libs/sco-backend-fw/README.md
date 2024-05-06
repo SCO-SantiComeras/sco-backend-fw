@@ -234,6 +234,7 @@ export class CoreService implements ICore {
 <pre>
 # Tsconfig.build.json file
 # You must add in exclude your main controller path and controller folder path declared in ScoBackendFw Config Module Import
+# Declare development and production controller paths
 
 {
   "extends": "./tsconfig.json",
