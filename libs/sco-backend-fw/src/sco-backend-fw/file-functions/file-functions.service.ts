@@ -129,10 +129,9 @@ export class FileFunctionsService {
     if (constructorName && constructorName.length > 0) {
       ownProviderName = `${constructorName[0].toLocaleLowerCase()}${constructorName.substring(1, constructorName.length)}`;
     } else {
-      const contextName: string = this.getContextname(this);
+      const contextName: string = this.getContextname(context);
       ownProviderName = `${contextName[0].toLocaleLowerCase()}${contextName.substring(1, contextName.length)}`;
     }
-    
 
     /* Set Own Class Provider */
     let providers: any[] = [];
