@@ -21,7 +21,7 @@ export class AppInterceptor implements NestInterceptor {
     context.switchToHttp().getRequest().headers[HEADERS.VALIDATION_PASSPORT] = this.appService.validationPassportCallback.bind(this.appService);
 
     /* Set Types */
-    context.switchToHttp().getRequest().headers[HEADERS.TYPES] = this.appService.setCustomResultTypes();
+    context.switchToHttp().getRequest().headers[HEADERS.TYPES] = this.appService.setCustomTypes();
     
     return next.handle().pipe(
       tap(() => {

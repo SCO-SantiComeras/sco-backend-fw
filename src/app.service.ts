@@ -34,7 +34,7 @@ export class AppService implements ICore {
     }
 
     /* Types */
-    setCustomResultTypes(): any {
+    setCustomTypes(): any {
         return {
             ...TYPES,
         }
