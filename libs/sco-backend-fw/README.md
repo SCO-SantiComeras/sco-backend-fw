@@ -244,7 +244,7 @@ export class CoreService implements ICore {
 </pre>
 
 ## Example
-- http://scoapps.es:10000
+- https://github.com/SCO-SantiComeras/sco-backend-fw-example
 
 ## Support
 
