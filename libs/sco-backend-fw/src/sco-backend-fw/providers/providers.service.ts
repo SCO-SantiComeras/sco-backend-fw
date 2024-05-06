@@ -27,7 +27,6 @@ export class ProvidersService {
 
   public getContextname(context: any): string {
     if (context && context.constructor && context.constructor.name && context.constructor.name.length > 0) {
-      console.log(context.constructor.name)
       return context.constructor.name;
     }
 
